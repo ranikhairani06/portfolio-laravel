@@ -7,9 +7,7 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* =========================
-   GLOBAL
-========================= */
+/* GLOBAL */
 
 * {
     box-sizing: border-box;
@@ -32,9 +30,7 @@ a {
     text-decoration: none;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+/* NAVBAR */
 
 .navbar {
     position: sticky;
@@ -83,17 +79,15 @@ a {
     color: #ec4899;
 }
 
-/* =========================
-   HOME / HERO
-========================= */
+/* HOME / HERO */
 
 .hero {
-    min-height: calc(100vh - 75px);
+    min-height: 650px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 30px;
+    padding: 70px 30px;
     position: relative;
     overflow: hidden;
     background: #ffffff;
@@ -126,7 +120,8 @@ a {
 .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
+    max-width: 850px;
+    margin: 0 auto;
 }
 
 .hero-badge {
@@ -137,13 +132,13 @@ a {
     border: 1px solid #f9a8d4;
     color: #db2777;
     font-size: 14px;
-    margin-bottom: 25px;
+    margin-bottom: 18px;
 }
 
 .hero h1 {
-    font-size: clamp(45px, 8vw, 80px);
-    line-height: 1.05;
-    margin-bottom: 25px;
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.1;
+    margin-bottom: 20px;
     font-weight: 800;
     color: #374151;
 }
@@ -154,17 +149,16 @@ a {
 
 .hero p {
     color: #6b7280;
-    font-size: 18px;
+    font-size: 17px;
     max-width: 600px;
     margin: auto;
 }
 
 .hero-buttons {
-    margin-top: 35px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .btn-primary,
@@ -198,9 +192,7 @@ a {
     background: #fdf2f8;
 }
 
-/* =========================
-   GENERAL PAGE
-========================= */
+/* GENERAL PAGE */
 
 .page {
     max-width: 1100px;
@@ -225,9 +217,7 @@ a {
     color: #6b7280;
 }
 
-/* =========================
-   ABOUT
-========================= */
+/* ABOUT */
 
 .about-grid {
     display: grid;
@@ -280,9 +270,7 @@ a {
     margin-bottom: 15px;
 }
 
-/* =========================
-   EDUCATION
-========================= */
+/* EDUCATION */
 
 .timeline {
     max-width: 800px;
@@ -342,9 +330,7 @@ a {
     margin-top: 10px;
 }
 
-/* =========================
-   PROJECTS
-========================= */
+/* PROJECTS */
 
 .project-grid {
     display: grid;
@@ -399,9 +385,7 @@ a {
     border: 1px solid #fbcfe8;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer {
     text-align: center;
@@ -411,9 +395,7 @@ footer {
     color: #6b7280;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media (max-width: 800px) {
 
@@ -439,4 +421,212 @@ footer {
     .page-header h1 {
         font-size: 38px;
     }
+}
+
+/* =========================
+   PROJECT PAGE - FIX
+========================= */
+
+.projects-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 30px;
+}
+
+.projects-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.projects-label {
+    color: #d84f91;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.projects-header h1 {
+    font-size: 42px;
+    color: #344054;
+    margin: 0 0 15px;
+}
+
+.projects-description {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #667085;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* GRID */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* CARD */
+.project-card {
+    background: #ffffff;
+    border: 1px solid #f3dce8;
+    border-radius: 20px;
+    padding: 30px;
+    min-height: 300px;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.07);
+    transition: 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(34, 197, 94, 0.12);
+}
+
+.project-number {
+    color: #d84f91;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 35px;
+}
+
+.project-content h2 {
+    color: #344054;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.project-content p {
+    color: #667085;
+    line-height: 1.7;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.project-button {
+    color: #d84f91;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.project-button:hover {
+    color: #b83d78;
+}
+
+.empty-project {
+    text-align: center;
+    padding: 50px;
+    color: #667085;
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* HP */
+@media (max-width: 600px) {
+    .projects-page {
+        padding: 50px 20px;
+    }
+
+    .projects-header h1 {
+        font-size: 34px;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* PROJECT DETAIL */
+.project-detail-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 30px;
+    min-height: calc(100vh - 150px);
+}
+
+.project-detail {
+    max-width: 850px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #f3dce8;
+    border-radius: 24px;
+    padding: 45px 50px;
+    box-shadow: 0 10px 30px rgba(236, 72, 153, 0.08);
+}
+
+.back-button {
+    display: inline-block;
+    color: #d84f91;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    transition: 0.3s ease;
+}
+
+.back-button:hover {
+    color: #b83d78;
+    transform: translateX(-3px);
+}
+
+.project-label {
+    color: #d84f91;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.project-detail h1 {
+    color: #344054;
+    font-size: 42px;
+    margin-bottom: 35px;
+    line-height: 1.2;
+}
+
+.project-detail-content {
+    border-top: 1px solid #f3e8ef;
+    padding-top: 30px;
+}
+
+.project-detail-content h2 {
+    color: #344054;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.project-detail-content p {
+    color: #667085;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* RESPONSIVE PROJECT DETAIL */
+@media (max-width: 600px) {
+
+    .project-detail-page {
+        padding: 45px 20px;
+    }
+
+    .project-detail {
+        padding: 30px 25px;
+        border-radius: 18px;
+    }
+
+    .project-detail h1 {
+        font-size: 32px;
+    }
+
+}
+/* ADD PROJECT */
+.add-project {
+    text-align: center;
+    margin-top: 45px;
+}
+
+.add-project .btn-primary {
+    display: inline-block;
 }

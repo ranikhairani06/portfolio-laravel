@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('title', 'Home')
-
 @section('content')
 
 <section class="hero">
@@ -24,8 +22,8 @@
 
         <div class="hero-buttons">
 
-            <a href="{{ route('projects') }}" class="btn-primary">
-                Lihat Project →
+            <a href="{{ route('projects.index') }}">
+            Lihat Project →
             </a>
 
             <a href="{{ route('about') }}" class="btn-secondary">

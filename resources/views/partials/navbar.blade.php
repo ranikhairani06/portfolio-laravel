@@ -19,7 +19,7 @@
             </li>
 
             <li>
-                <a href="{{ route('projects') }}">Projects</a>
+                <a href="{{ route('projects.index') }}">Projects</a>
             </li>
         </ul>
 
