@@ -630,3 +630,136 @@ footer {
 .add-project .btn-primary {
     display: inline-block;
 }
+/* EDIT PROJECT */
+
+.edit-project-card {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 45px 50px;
+    background: #ffffff;
+    border: 1px solid #f3dce8;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(236, 72, 153, 0.07);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #344054;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #e5d5df;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #344054;
+    background: #ffffff;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ec4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.08);
+}
+
+.form-group textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.cancel-button {
+    padding: 12px 22px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    color: #667085;
+    font-weight: 600;
+    background: #ffffff;
+    transition: 0.3s ease;
+}
+
+.cancel-button:hover {
+    color: #d84f91;
+    border-color: #f3b5d0;
+}
+
+.save-button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ec4899, #22c55e);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.save-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(236, 72, 153, 0.2);
+}
+
+.form-errors {
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+}
+
+.form-errors p {
+    margin: 5px 0;
+}
+
+@media (max-width: 600px) {
+
+    .edit-project-card {
+        padding: 30px 25px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .cancel-button,
+    .save-button {
+        text-align: center;
+        width: 100%;
+    }
+
+}
+/* FLASH MESSAGE */
+
+.success-message {
+    max-width: 1100px;
+    margin: 25px auto -20px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    background: #ecfdf3;
+    border: 1px solid #a7f3d0;
+    color: #15803d;
+    font-size: 15px;
+    font-weight: 600;
+}

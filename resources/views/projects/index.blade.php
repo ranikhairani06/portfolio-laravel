@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if (session('success'))
+    <div class="success-message">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="projects-page">
 
     <div class="projects-header">
@@ -51,7 +57,7 @@
              + Tambah Project
          </a>
         </div>
-        
+
     @else
 
         <div class="empty-project">
