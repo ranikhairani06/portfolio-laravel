@@ -16,6 +16,14 @@ Route::get('/education', function () {
     return view('education');
 })->name('education');
 
+Route::get('/projects/trash', [ProjectController::class, 'trash'])
+    ->name('projects.trash');
+
+Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])
+    ->name('projects.restore');
+
+Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete'])
+    ->name('projects.forceDelete');
 
 Route::resource('projects', ProjectController::class)->only([
     'index',
@@ -26,3 +34,4 @@ Route::resource('projects', ProjectController::class)->only([
     'update',
     'destroy'
 ]);
+

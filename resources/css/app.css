@@ -763,3 +763,93 @@ footer {
     font-size: 15px;
     font-weight: 600;
 }
+
+/* PROJECT ACTION BUTTONS */
+
+.project-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #f3dce8;
+}
+
+.project-actions form {
+    margin: 0;
+}
+
+.edit-project-button,
+.delete-project-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Edit */
+.edit-project-button {
+    color: #ffffff;
+    background: #d84f91;
+}
+
+.edit-project-button:hover {
+    background: #c43f80;
+    transform: translateY(-2px);
+}
+
+/* Hapus */
+.delete-project-button {
+    border: none;
+    color: #ffffff;
+    background: #dc3545;
+}
+
+.delete-project-button:hover {
+    background: #bb2d3b;
+    transform: translateY(-2px);
+}
+
+/* TRASH ACTION BUTTONS */
+
+.restore-project-button,
+.permanent-delete-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Restore */
+.restore-project-button {
+    color: #ffffff;
+    background: #22c55e;
+}
+
+.restore-project-button:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+}
+
+/* Hapus Permanen */
+.permanent-delete-button {
+    color: #ffffff;
+    background: #dc3545;
+}
+
+.permanent-delete-button:hover {
+    background: #bb2d3b;
+    transform: translateY(-2px);
+}

@@ -56,7 +56,11 @@
          <a href="{{ route('projects.create') }}" class="btn-primary">
              + Tambah Project
          </a>
+         <a href="{{ route('projects.trash') }}" class="btn-primary">
+            🗑 Trash
+        </a>
         </div>
+        
 
     @else
 

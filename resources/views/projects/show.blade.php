@@ -24,22 +24,23 @@
         </div>
         <div class="project-actions">
 
-            <a href="{{ route('projects.edit', $project->id) }}">
-             Edit Project
+            <a href="{{ route('projects.edit', $project->id) }}" class="edit-project-button">
+                Edit Project
             </a>
+
             <form
                 action="{{ route('projects.destroy', $project->id) }}"
                 method="POST"
                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus project ini?');"
-                style="display: inline;"
-    >
+            >
                 @csrf
                 @method('DELETE')
 
-                <button type="submit">
+                <button type="submit" class="delete-project-button">
                     Hapus Project
                 </button>
             </form>
+
         </div>
     </div>
 
