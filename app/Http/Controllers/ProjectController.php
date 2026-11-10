@@ -3,20 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Category;
+use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'projects' => Project::all()
-        ];
+        $search = $request->query('search', '');
+        $perPage = (int) $request->query('per_page', 10);
 
-        return view('projects.index')->with($data);
+        if (!in_array($perPage, [5, 10, 25])) {
+            $perPage = 10;
+        }
+
+        $projects = Project::query()
+            ->where('title', 'like', '%' . $search . '%')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('projects.index', compact(
+            'projects',
+            'search',
+            'perPage'
+        ));
     }
 
     /**
@@ -24,7 +40,13 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $categories = Category::orderBy('name')->get();
+        $skills = Skill::orderBy('name')->get();
+
+        return view('projects.create', compact(
+            'categories',
+            'skills'
+        ));
     }
 
     /**
@@ -32,16 +54,32 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $project = new Project();
+        $validatedData = $request->validate([
+            'title' => 'required|string|min:5|max:255',
+            'description' => 'required|string|min:10',
+            'category_id' => 'nullable|exists:categories,id',
+            'skills' => 'nullable|array',
+            'skills.*' => 'integer|distinct|exists:skills,id',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=400,min_height=300',
+        ]);
 
-        $project->title = $request->title;
-        $project->description = $request->description;
+        $selectedSkills = $validatedData['skills'] ?? [];
 
-        $project->save();
+        unset($validatedData['skills']);
+
+        if ($request->hasFile('thumbnail')) {
+            $validatedData['thumbnail'] = $request->file('thumbnail')
+                ->store('projects/thumbnails', 'public');
+        }
+
+        $project = Project::create($validatedData);
+
+        // Menyimpan skill yang dipilih
+        $project->skills()->sync($selectedSkills);
 
         return redirect()
-        ->route('projects.index')
-        ->with('success', 'Project berhasil ditambahkan.');
+            ->route('projects.index')
+            ->with('success', 'Project berhasil ditambahkan.');
     }
 
     /**
@@ -49,7 +87,11 @@ class ProjectController extends Controller
      */
     public function show(string $id)
     {
-        $project = Project::findOrFail($id);
+        $project = Project::with([
+            'category',
+            'skills',
+            'images'
+        ])->findOrFail($id);
 
         return view('projects.show')->with('project', $project);
     }
@@ -59,9 +101,16 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-    $project = Project::findOrFail($id);
+        $project = Project::with('skills')->findOrFail($id);
 
-    return view('projects.edit')->with('project', $project);
+        $categories = Category::orderBy('name')->get();
+        $skills = Skill::orderBy('name')->get();
+
+        return view('projects.edit', compact(
+            'project',
+            'categories',
+            'skills'
+        ));
     }
 
     /**
@@ -69,27 +118,56 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-    $validatedData = $request->validate([
-        'title' => 'required|string|min:5|max:255',
-        'description' => 'required|string|min:10',
-    ]);
+        $validatedData = $request->validate([
+            'title' => 'required|string|min:5|max:255',
+            'description' => 'required|string|min:10',
+            'category_id' => 'nullable|exists:categories,id',
+            'skills' => 'nullable|array',
+            'skills.*' => 'integer|distinct|exists:skills,id',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=400,min_height=300',
+        ]);
 
-    $project = Project::findOrFail($id);
+        $project = Project::findOrFail($id);
 
-    $project->update($validatedData);
+        $selectedSkills = $validatedData['skills'] ?? [];
 
-    return redirect()
-    ->route('projects.index')
-    ->with('success', 'Project berhasil diperbarui.');
+        unset($validatedData['skills']);
+
+        if ($request->hasFile('thumbnail')) {
+            if ($project->thumbnail) {
+                Storage::disk('public')->delete($project->thumbnail);
+            }
+
+            $validatedData['thumbnail'] = $request->file('thumbnail')
+                ->store('projects/thumbnails', 'public');
+        }
+
+        $project->update($validatedData);
+
+        // Memperbarui skill project
+        $project->skills()->sync($selectedSkills);
+
+        return redirect()
+            ->route('projects.index')
+            ->with('success', 'Project berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
 {
-    $project = Project::findOrFail($id);
+    // Hapus file thumbnail dari storage
+    if ($project->thumbnail) {
+        Storage::disk('public')->delete($project->thumbnail);
+    }
 
+    // Hapus seluruh file gambar gallery dari storage
+    foreach ($project->images as $image) {
+        Storage::disk('public')->delete($image->image);
+    }
+
+    // Hapus project dari database
     $project->delete();
 
     return redirect()
@@ -97,31 +175,45 @@ class ProjectController extends Controller
         ->with('success', 'Project berhasil dihapus.');
 }
 
-public function trash()
-{
-    $projects = Project::onlyTrashed()->get();
+    /**
+     * Display trashed projects.
+     */
+    public function trash()
+    {
+        $projects = Project::onlyTrashed()->get();
 
-    return view('projects.trash')->with('projects', $projects);
-}
-public function restore(string $id)
-{
-    $project = Project::withTrashed()->findOrFail($id);
+        return view('projects.trash')->with('projects', $projects);
+    }
 
-    $project->restore();
+    /**
+     * Restore a deleted project.
+     */
+    public function restore(string $id)
+    {
+        $project = Project::withTrashed()->findOrFail($id);
 
-    return redirect()
-        ->route('projects.trash')
-        ->with('success', 'Project berhasil dipulihkan.');
-}
+        $project->restore();
 
-public function forceDelete(string $id)
-{
-    $project = Project::withTrashed()->findOrFail($id);
+        return redirect()
+            ->route('projects.trash')
+            ->with('success', 'Project berhasil dipulihkan.');
+    }
 
-    $project->forceDelete();
+    /**
+     * Permanently delete a project.
+     */
+    public function forceDelete(string $id)
+    {
+        $project = Project::withTrashed()->findOrFail($id);
 
-    return redirect()
-        ->route('projects.trash')
-        ->with('success', 'Project berhasil dihapus secara permanen.');
-}
+        if ($project->thumbnail) {
+            Storage::disk('public')->delete($project->thumbnail);
+        }
+
+        $project->forceDelete();
+
+        return redirect()
+            ->route('projects.trash')
+            ->with('success', 'Project berhasil dihapus secara permanen.');
+    }
 }

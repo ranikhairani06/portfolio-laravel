@@ -22,6 +22,19 @@
                 <a href="{{ route('projects.index') }}">Projects</a>
             </li>
         </ul>
+        <div class="nav-auth">
+            @guest
+                <a href="{{ route('login') }}">Login</a>
+            @else
+                <span>Halo, {{ Auth::user()->name }}</span>
+                <a href="{{ route('profile.saya') }}">Profil</a>
+                <a href="{{ route('admin.dashboard') }}">Admin</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="nav-logout" type="submit">Logout</button>
+                </form>
+            @endguest
+        </div>
 
     </div>
 </nav>
